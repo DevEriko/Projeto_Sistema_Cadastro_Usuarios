@@ -9,4 +9,14 @@ document.getElementById("cadstroForm").addEventListener("submit", function (even
     if (!nome || !email || !senha) {
         alert("Todos os campos são obrigatórios!");
     }
+
+    // Coloca os dados na tabela
+    const tabelaUsuarios = document.getElementById("tabeUsuarios").getElementsByTagName("tbody")[0];
+    const novaLinha = tabelaUsuarios.insertRow();
+
+    const celulaNome = novaLinha.insertCell(0);
+    const celulaEmail = novaLinha = novaLinha.insertCell(1)
+
+    celulaNome.textContent = nome;
+    celulaEmail.textContent = email;
 })
