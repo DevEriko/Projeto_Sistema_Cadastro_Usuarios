@@ -19,4 +19,8 @@ document.getElementById("cadstroForm").addEventListener("submit", function (even
 
     celulaNome.textContent = nome;
     celulaEmail.textContent = email;
+
+    // Limpar os campos do formulário
+    document.getElementById("cadastroForm").reset();
+    alert("Usuário cadastrado com sucesso!")
 })
