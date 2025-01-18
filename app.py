@@ -4,3 +4,6 @@ import MySQLdb.cursors
 import hashlib
 
 app = Flask(__name__)
+
+#Configuração do Banco de dados
+app.config['MYSQL_HOST'] = 'localhost'
