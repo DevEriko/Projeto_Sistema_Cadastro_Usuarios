@@ -43,6 +43,15 @@ def cadastrar_usuario():
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
+# Rota para listar usuários
+@app.route('/usuarios', methods=['GET'])
+def listar_usuarios():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)    
+    cursor.execute("SELECT id, nome, email, FROM usuarios")
+    usuarios = cursor.fetchall()
+    cursor.close()
+    return jsonify(usuarios)
 
-    
+if __name__ == '__main__':
+    app.run(debug=True)
     
