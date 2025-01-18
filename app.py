@@ -29,4 +29,20 @@ def cadastrar_usuario():
     if not nome or not email or not senha:
         return jsonify({"erro": "Todos os campos são obrigatórios!"}), 400
     
+    # Hash da senha para segurança 
+    senha_hash = hashlib.sha256(senha.encode()).hexdigest()
+    
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO usuarios (nome, email, senha) VALUES (%s, %s, %s, %s)", (nome, email, senha))
+        mysql.connection.commit()
+        cursor.close()
+        return jsonify({mensagem: "Usuário cadastrado com sucesso!"}), 201
+    except MySQLdb.IntegrityError:
+        return jsonify({"erro": "E-mail já cadastrado!"}), 404
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+
+    
     
