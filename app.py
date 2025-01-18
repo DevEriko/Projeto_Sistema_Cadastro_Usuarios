@@ -17,3 +17,16 @@ app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
 
 mysql = MySQL(app)
+
+# Rora para cadastrar usuários
+@app.route('/cadastrar', methods=['POST'])
+def cadastrar_usuario():
+    dados = request.json
+    nome = dados.get('nome')
+    email = dados.get('email')
+    senha = dados.get('senha')
+    
+    if not nome or not email or not senha:
+        return jsonify({"erro": "Todos os campos são obrigatórios!"}), 400
+    
+    
