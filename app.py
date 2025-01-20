@@ -26,6 +26,7 @@ def cadastrar_usuario():
     email = dados.get('email')
     senha = dados.get('senha')
     
+    # Verifica se todos os campos foram preenchidos
     if not nome or not email or not senha:
         return jsonify({"erro": "Todos os campos são obrigatórios!"}), 400
     
@@ -34,10 +35,10 @@ def cadastrar_usuario():
     
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO usuarios (nome, email, senha) VALUES (%s, %s, %s, %s)", (nome, email, senha))
+        cursor.execute("INSERT INTO usuarios (nome, email, senha) VALUES (%s, %s, %s)", (nome, email, senha_hash))
         mysql.connection.commit()
         cursor.close()
-        return jsonify({mensagem: "Usuário cadastrado com sucesso!"}), 201
+        return jsonify({"mensagem": "Usuário cadastrado com sucesso!"}), 201
     except MySQLdb.IntegrityError:
         return jsonify({"erro": "E-mail já cadastrado!"}), 404
     except Exception as e:
@@ -47,7 +48,7 @@ def cadastrar_usuario():
 @app.route('/usuarios', methods=['GET'])
 def listar_usuarios():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)    
-    cursor.execute("SELECT id, nome, email, FROM usuarios")
+    cursor.execute("SELECT id, nome, email FROM usuarios")
     usuarios = cursor.fetchall()
     cursor.close()
     return jsonify(usuarios)
